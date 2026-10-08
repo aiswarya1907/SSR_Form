@@ -1,0 +1,364 @@
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #222;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    padding: 18px 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    color: white;
+
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #4338ca,
+        #7c3aed
+    );
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin: 25px 0;
+}
+
+.hero-btn {
+    padding: 12px 28px;
+    border-radius: 30px;
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.hero-btn:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+
+.animation-box {
+    height: 350px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 25px;
+}
+
+.floating-card {
+    width: 220px;
+
+    background: white;
+    color: #222;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.25);
+
+    animation: float 3s ease-in-out infinite;
+}
+
+.delay-one {
+    animation-delay: 0.5s;
+}
+
+.delay-two {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-18px);
+    }
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section-padding {
+    padding: 100px 0;
+}
+
+.section-padding h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+
+/* =========================
+   FEATURE CARDS
+========================= */
+
+.feature-card {
+    height: 100%;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background: white;
+
+    border-radius: 20px;
+
+    border: 1px solid #eee;
+
+    transition:
+        transform 0.4s,
+        box-shadow 0.4s;
+}
+
+.feature-card:hover {
+    transform: translateY(-12px);
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.feature-icon {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services {
+    background: linear-gradient(
+        135deg,
+        #111827,
+        #312e81
+    );
+}
+
+.service-card {
+    height: 100%;
+
+    padding: 35px;
+
+    text-align: center;
+
+    color: white;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.1);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    transition: 0.4s;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+
+    background:
+        rgba(255, 255, 255, 0.18);
+}
+
+.service-card h3 {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+.service-card p {
+    color: #ddd;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact {
+    background: #f5f7fb;
+}
+
+.contact-card {
+    padding: 40px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.form-control {
+    padding: 13px;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 20px rgba(67, 56, 202, 0.15);
+}
+
+.submit-btn {
+    padding: 13px;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 50px 0;
+
+    background: #111827;
+
+    color: white;
+}
+
+footer p,
+footer small {
+    color: #aaa;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 991px) {
+
+    .hero {
+        text-align: center;
+    }
+
+    .hero .row {
+        padding-top: 60px;
+    }
+
+    .nav-link {
+        margin-left: 0;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .section-padding {
+        padding: 70px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.7rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .animation-box {
+        height: 300px;
+    }
+
+    .section-padding h2 {
+        font-size: 2rem;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .floating-card {
+        width: 190px;
+        padding: 15px;
+        font-size: 15px;
+    }
+
+    .contact-card {
+        padding: 25px;
+    }
+}

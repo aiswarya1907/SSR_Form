@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student API Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+
+   <div class="text-center mb-5">
+
+    <h1>Student API Dashboard</h1>
+
+    <p class="text-muted">
+        Student Management using REST API
+    </p>
+
+    <a href="/logout" class="btn btn-danger mt-2">
+        Logout
+    </a>
+
+</div>
+
+
+    <!-- ADD STUDENT -->
+
+    <div class="card shadow p-4 mb-5">
+
+        <h3 class="mb-4">
+            Add Student
+        </h3>
+
+        <form id="studentForm">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    class="form-control"
+                    placeholder="Enter student name"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="studentEmail"
+                    class="form-control"
+                    placeholder="Enter email"
+                    required>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="studentPhone"
+                    class="form-control"
+                    placeholder="Enter phone number">
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Skills
+                </label>
+
+                <input
+                    type="text"
+                    id="studentSkills"
+                    class="form-control"
+                    placeholder="Python, Java, HTML">
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    About
+                </label>
+
+                <textarea
+                    id="studentAbout"
+                    class="form-control"
+                    placeholder="About the student"></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Add Student
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- EDIT STUDENT -->
+
+    <div id="editSection"
+         class="card shadow p-4 mb-5"
+         style="display: none;">
+
+        <h3 class="mb-4">
+            Edit Student
+        </h3>
+
+        <input type="hidden" id="editId">
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Name
+            </label>
+
+            <input
+                type="text"
+                id="editName"
+                class="form-control">
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="editEmail"
+                class="form-control">
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Phone
+            </label>
+
+            <input
+                type="text"
+                id="editPhone"
+                class="form-control">
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Skills
+            </label>
+
+            <input
+                type="text"
+                id="editSkills"
+                class="form-control">
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                About
+            </label>
+
+            <textarea
+                id="editAbout"
+                class="form-control"></textarea>
+
+        </div>
+
+
+        <button
+            onclick="updateStudent()"
+            class="btn btn-success">
+
+            Update Student
+
+        </button>
+
+
+        <button
+            onclick="cancelEdit()"
+            class="btn btn-secondary">
+
+            Cancel
+
+        </button>
+
+    </div>
+
+
+    <!-- STUDENT LIST -->
+
+    <div class="card shadow p-4">
+
+        <div class="d-flex justify-content-between
+                    align-items-center mb-4">
+
+            <h3>
+                Students
+            </h3>
+
+            <button
+                onclick="loadStudents()"
+                class="btn btn-success">
+
+                Refresh
+
+            </button>
+
+        </div>
+
+
+        <div id="studentList">
+
+            <p class="text-muted">
+                Loading students...
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+// ============================================
+// GET ALL STUDENTS
+// ============================================
+
+async function loadStudents() {
+
+    try {
+
+        const response =
+            await fetch("/api/students");
+
+        const students =
+            await response.json();
+
+        const studentList =
+            document.getElementById("studentList");
+
+
+        if (students.length === 0) {
+
+            studentList.innerHTML = `
+                <div class="alert alert-info">
+                    No students found.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        studentList.innerHTML = "";
+
+
+        students.forEach(function(student) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "card mb-3 p-3";
+
+
+            card.innerHTML = `
+
+                <h4>
+                    ${student.name}
+                </h4>
+
+                <p>
+                    <strong>ID:</strong>
+                    ${student.id}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    ${student.email}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${student.phone}
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    ${student.skills}
+                </p>
+
+                <p>
+                    <strong>About:</strong>
+                    ${student.about}
+                </p>
+
+                <button
+                    class="btn btn-warning me-2"
+                    onclick="editStudent(${student.id})">
+
+                    Edit
+
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    onclick="deleteStudent(${student.id})">
+
+                    Delete
+
+                </button>
+
+            `;
+
+
+            studentList.appendChild(card);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("studentList")
+            .innerHTML = `
+                <div class="alert alert-danger">
+                    Unable to load students.
+                </div>
+            `;
+
+    }
+
+}
+
+
+// ============================================
+// CREATE STUDENT
+// ============================================
+
+document
+    .getElementById("studentForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const student = {
+
+                name:
+                    document
+                    .getElementById("studentName")
+                    .value,
+
+                email:
+                    document
+                    .getElementById("studentEmail")
+                    .value,
+
+                phone:
+                    document
+                    .getElementById("studentPhone")
+                    .value,
+
+                skills:
+                    document
+                    .getElementById("studentSkills")
+                    .value,
+
+                about:
+                    document
+                    .getElementById("studentAbout")
+                    .value
+
+            };
+
+
+            try {
+
+                const response =
+                    await fetch("/api/students", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(student)
+
+                    });
+
+
+                const result =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    alert(
+                        "Student added successfully!"
+                    );
+
+
+                    document
+                        .getElementById("studentForm")
+                        .reset();
+
+
+                    loadStudents();
+
+                }
+
+                else {
+
+                    alert(result.message);
+
+                }
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                alert(
+                    "Error adding student."
+                );
+
+            }
+
+        }
+    );
+
+
+// ============================================
+// EDIT STUDENT
+// ============================================
+
+async function editStudent(id) {
+
+    try {
+
+        const response =
+            await fetch(`/api/students/${id}`);
+
+
+        if (!response.ok) {
+
+            alert("Student not found.");
+
+            return;
+
+        }
+
+
+        const student =
+            await response.json();
+
+
+        document
+            .getElementById("editId")
+            .value = student.id;
+
+
+        document
+            .getElementById("editName")
+            .value = student.name;
+
+
+        document
+            .getElementById("editEmail")
+            .value = student.email;
+
+
+        document
+            .getElementById("editPhone")
+            .value = student.phone;
+
+
+        document
+            .getElementById("editSkills")
+            .value = student.skills;
+
+
+        document
+            .getElementById("editAbout")
+            .value = student.about;
+
+
+        document
+            .getElementById("editSection")
+            .style.display = "block";
+
+
+        // Scroll to edit form
+
+        document
+            .getElementById("editSection")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Error loading student."
+        );
+
+    }
+
+}
+
+
+// ============================================
+// UPDATE STUDENT
+// ============================================
+
+async function updateStudent() {
+
+    const id =
+        document
+        .getElementById("editId")
+        .value;
+
+
+    const updatedStudent = {
+
+        name:
+            document
+            .getElementById("editName")
+            .value,
+
+        email:
+            document
+            .getElementById("editEmail")
+            .value,
+
+        phone:
+            document
+            .getElementById("editPhone")
+            .value,
+
+        skills:
+            document
+            .getElementById("editSkills")
+            .value,
+
+        about:
+            document
+            .getElementById("editAbout")
+            .value
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/students/${id}`,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            updatedStudent
+                        )
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (response.ok) {
+
+            alert(
+                "Student updated successfully!"
+            );
+
+
+            cancelEdit();
+
+            loadStudents();
+
+        }
+
+        else {
+
+            alert(result.message);
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Error updating student."
+        );
+
+    }
+
+}
+
+
+// ============================================
+// CANCEL EDIT
+// ============================================
+
+function cancelEdit() {
+
+    document
+        .getElementById("editSection")
+        .style.display = "none";
+
+}
+
+
+// ============================================
+// DELETE STUDENT
+// ============================================
+
+async function deleteStudent(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this student?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/students/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        alert(result.message);
+
+
+        loadStudents();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Error deleting student."
+        );
+
+    }
+
+}
+
+
+// ============================================
+// INITIAL LOAD
+// ============================================
+
+loadStudents();
+
+</script>
+
+</body>
+
+</html>
